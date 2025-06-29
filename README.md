@@ -6,14 +6,32 @@ A modern, feature-rich community platform designed specifically for college stud
 
 ## 🖼️ Screenshots
 
-<div align="center">
-  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20154713.png" alt="Homepage" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155103.png" alt="Dashboard" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155132.png" alt="Community Posts" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155157.png" alt="Post Detail" width="300" height="200" style="border-radius: 10px; margin: 10px;">
+<h3 align="center">🔍 Screenshots</h3>
 
+<p align="center">
+  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20154713.png?raw=true" 
+       alt="Homepage" 
+       width="45%" 
+       style="border-radius: 12px; margin: 10px;" />
 
-</div>
+  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155103.png?raw=true" 
+       alt="Dashboard" 
+       width="45%" 
+       style="border-radius: 12px; margin: 10px;" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155132.png?raw=true" 
+       alt="Community Posts" 
+       width="45%" 
+       style="border-radius: 12px; margin: 10px;" />
+
+  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155157.png?raw=true" 
+       alt="Post Detail" 
+       width="45%" 
+       style="border-radius: 12px; margin: 10px;" />
+</p>
+
 
 ## 🛠️ Tech Stack
 
