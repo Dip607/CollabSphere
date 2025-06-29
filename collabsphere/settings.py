@@ -17,6 +17,8 @@ SECRET_KEY = 'django-insecure-qy0=u@g&uyz+ab%%ch+i6kvwf2qs95p_#g203j@0pf60bfd$64
 DEBUG = True
 
 ALLOWED_HOSTS = ['collabsphere-4id0.onrender.com', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://collabsphere-4id0.onrender.com']
+
 
 # Application definition
 INSTALLED_APPS = [
