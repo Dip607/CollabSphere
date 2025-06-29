@@ -7,13 +7,12 @@ A modern, feature-rich community platform designed specifically for college stud
 ## 🖼️ Screenshots
 
 <div align="center">
-  <img src="screenshots/homepage.png" alt="Homepage" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="screenshots/dashboard.png" alt="Dashboard" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="screenshots/community.png" alt="Community Posts" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="screenshots/post-detail.png" alt="Post Detail" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="screenshots/messages.png" alt="Direct Messages" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="screenshots/notifications.png" alt="Notifications" width="300" height="200" style="border-radius: 10px; margin: 10px;">
-  <img src="screenshots/mobile-view.png" alt="Mobile View" width="300" height="200" style="border-radius: 10px; margin: 10px;">
+  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20154713.png" alt="Homepage" width="300" height="200" style="border-radius: 10px; margin: 10px;">
+  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155103.png" alt="Dashboard" width="300" height="200" style="border-radius: 10px; margin: 10px;">
+  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155132.png" alt="Community Posts" width="300" height="200" style="border-radius: 10px; margin: 10px;">
+  <img src="https://github.com/SouravUpadhyay7/Collab_Sphere/blob/main/Screenshot/Screenshot%202025-06-29%20155157.png" alt="Post Detail" width="300" height="200" style="border-radius: 10px; margin: 10px;">
+
+
 </div>
 
 ## 🛠️ Tech Stack
