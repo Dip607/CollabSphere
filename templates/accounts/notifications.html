@@ -3,6 +3,9 @@
 {% block title %}Notifications - CollabSphere{% endblock %}
 
 {% block content %}
+<form id="csrf-form" style="display:none;">
+    {% csrf_token %}
+</form>
 <div class="row">
     <div class="col-12">
         <div class="card">
