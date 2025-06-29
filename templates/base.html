@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CollabSphere - XYZ College Community{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-purple: #7c3aed;
+            --secondary-purple: #8b5cf6;
+            --dark-purple: #5b21b6;
+            --light-purple: #c4b5fd;
+            --gradient-blue: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #7c3aed 100%);
+            --gradient-dark: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            --dark-bg: #0a0a0f;
+            --card-bg: #1a1a2e;
+            --card-border: #2d2d3a;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-accent: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+        }
+
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: var(--text-light);
+            font-weight: 400;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: rgba(26, 26, 46, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .navbar-brand {
+            color: var(--text-light) !important;
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-muted) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin: 0 0.25rem;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--text-light) !important;
+            background: rgba(124, 58, 237, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-blue);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .card-header {
+            background: var(--gradient-blue);
+            color: var(--text-light);
+            border-bottom: none;
+            border-radius: 16px 16px 0 0 !important;
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .form-control {
+            background: rgba(26, 26, 46, 0.8);
+            border: 2px solid var(--card-border);
+            color: var(--text-light);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(26, 26, 46, 0.9);
+            border-color: var(--primary-purple);
+            color: var(--text-light);
+            box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .btn {
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-blue);
+            color: var(--text-light);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+            color: var(--text-light);
+        }
+
+        .btn-secondary {
+            background: var(--dark-purple);
+            color: var(--text-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-purple);
+            transform: translateY(-2px);
+            color: var(--text-light);
+        }
+
+        .btn-outline-light {
+            border: 2px solid var(--card-border);
+            color: var(--text-light);
+            background: transparent;
+        }
+
+        .btn-outline-light:hover {
+            background: var(--card-border);
+            border-color: var(--card-border);
+            color: var(--text-light);
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            font-weight: 500;
+            padding: 1rem 1.25rem;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger-color);
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info-color);
+            border-left: 4px solid var(--info-color);
+        }
+
+        .post-card {
+            transition: all 0.3s ease;
+            border: 1px solid var(--card-border);
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .post-type-badge {
+            background: var(--gradient-blue);
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .role-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .role-student {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .role-alumni {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .role-professor {
+            background: rgba(168, 85, 247, 0.2);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary-purple);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .main-content {
+            min-height: calc(100vh - 100px);
+            padding: 2rem 0;
+        }
+
+        .footer {
+            background: var(--gradient-dark);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .dropdown-menu {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        .dropdown-item {
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--text-light);
+        }
+
+        .pagination .page-link {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .pagination .page-link:hover {
+            background: var(--primary-purple);
+            border-color: var(--primary-purple);
+            color: var(--text-light);
+        }
+
+        .pagination .page-item.active .page-link {
+            background: var(--gradient-blue);
+            border-color: var(--primary-purple);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-purple);
+        }
+
+        /* Text selection */
+        ::selection {
+            background: rgba(124, 58, 237, 0.3);
+            color: var(--text-light);
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(124, 58, 237, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-purple);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modern form styling */
+        .form-label {
+            font-weight: 600;
+            color: var(--text-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-text {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        /* Badge styling */
+        .badge {
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+        }
+
+        /* Modern card content */
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-footer {
+            background: rgba(26, 26, 46, 0.5);
+            border-top: 1px solid var(--card-border);
+            border-radius: 0 0 16px 16px;
+            padding: 1rem 1.5rem;
+        }
+
+        /* Notification and Message Badge Styling */
+        .notification-dropdown {
+            background: var(--card-bg) !important;
+            border: 1px solid var(--card-border) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+        }
+
+        .notification-dropdown .dropdown-item {
+            color: var(--text-light) !important;
+            background: transparent !important;
+            border-radius: 8px;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .notification-dropdown .dropdown-item:hover {
+            background: rgba(124, 58, 237, 0.1) !important;
+            transform: translateY(-1px);
+        }
+
+        .notification-dropdown .dropdown-header {
+            color: var(--text-accent) !important;
+            font-weight: 600;
+            background: transparent !important;
+        }
+
+        .notification-dropdown .dropdown-divider {
+            border-color: var(--card-border) !important;
+        }
+
+        /* Unread notification styling */
+        .unread-notification {
+            border-left: 4px solid var(--primary-purple) !important;
+            background: rgba(124, 58, 237, 0.05) !important;
+        }
+
+        /* Unread message styling */
+        .unread-message {
+            border-left: 4px solid var(--info-color) !important;
+            background: rgba(59, 130, 246, 0.05) !important;
+        }
+
+        /* Badge animations */
+        .badge {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-users"></i> CollabSphere
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'community:post_list' %}">
+                            <i class="fas fa-bullhorn"></i> Community
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'community:post_create' %}">
+                            <i class="fas fa-plus"></i> Create Post
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <!-- Notification Bell -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-bell"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notification-badge" style="display: none;">
+                                    0
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end notification-dropdown" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                                <li><h6 class="dropdown-header">Notifications</h6></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <div id="notifications-list">
+                                    <li class="px-3 py-2 text-muted">No new notifications</li>
+                                </div>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-center" href="{% url 'accounts:notifications' %}">
+                                    <i class="fas fa-eye"></i> View All
+                                </a></li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Messages Link -->
+                        <li class="nav-item">
+                            <a class="nav-link position-relative" href="{% url 'community:inbox' %}">
+                                <i class="fas fa-envelope"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="message-badge" style="display: none;">
+                                    0
+                                </span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                {% if user.profile_pic %}
+                                    <img src="{{ user.profile_pic.url }}" alt="Profile" class="profile-pic me-2" style="width: 32px; height: 32px;">
+                                {% else %}
+                                    <i class="fas fa-user-circle me-2"></i>
+                                {% endif %}
+                                {{ user.get_full_name|default:user.email }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'accounts:dashboard' %}">
+                                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                                </a></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:profile_edit' %}">
+                                    <i class="fas fa-user-edit"></i> Edit Profile
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:login' %}">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:signup' %}">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container mt-5 pt-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content mt-5 pt-4">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 CollabSphere - XYZ College Community Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Notification and Message Badge Updates
+        {% if user.is_authenticated %}
+        function updateNotificationBadge() {
+            fetch('{% url "accounts:get_unread_notifications_count" %}')
+                .then(response => response.json())
+                .then(data => {
+                    const badge = document.getElementById('notification-badge');
+                    if (data.count > 0) {
+                        badge.textContent = data.count;
+                        badge.style.display = 'block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                });
+        }
+
+        function updateMessageBadge() {
+            fetch('{% url "community:inbox" %}')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const unreadCount = doc.querySelectorAll('.unread-message').length;
+                    const badge = document.getElementById('message-badge');
+                    if (unreadCount > 0) {
+                        badge.textContent = unreadCount;
+                        badge.style.display = 'block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                });
+        }
+
+        // Update badges every 30 seconds
+        setInterval(updateNotificationBadge, 30000);
+        setInterval(updateMessageBadge, 30000);
+
+        // Initial load
+        updateNotificationBadge();
+        updateMessageBadge();
+        {% endif %}
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

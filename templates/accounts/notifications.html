@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications - CollabSphere{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">
+                    <i class="fas fa-bell"></i> Notifications
+                </h3>
+                {% if notifications %}
+                    <button class="btn btn-outline-light btn-sm" onclick="markAllRead()">
+                        <i class="fas fa-check-double"></i> Mark All Read
+                    </button>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if notifications %}
+                    <div class="list-group">
+                        {% for notification in notifications %}
+                            <div class="list-group-item d-flex justify-content-between align-items-start {% if not notification.is_read %}unread-notification{% endif %}"
+                                 style="background: rgba(26,26,46,0.8); border: 1px solid var(--card-border); margin-bottom: 0.5rem; border-radius: 12px;">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="me-3">
+                                            {% if notification.notification_type == 'comment' %}
+                                                <i class="fas fa-comment text-primary fa-lg"></i>
+                                            {% elif notification.notification_type == 'reply' %}
+                                                <i class="fas fa-reply text-info fa-lg"></i>
+                                            {% elif notification.notification_type == 'dm' %}
+                                                <i class="fas fa-envelope text-warning fa-lg"></i>
+                                            {% elif notification.notification_type == 'post_like' %}
+                                                <i class="fas fa-heart text-danger fa-lg"></i>
+                                            {% elif notification.notification_type == 'comment_like' %}
+                                                <i class="fas fa-thumbs-up text-success fa-lg"></i>
+                                            {% else %}
+                                                <i class="fas fa-bell text-muted fa-lg"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 {% if not notification.is_read %}fw-bold{% endif %}" style="color: var(--text-light);">
+                                                {{ notification.title }}
+                                            </h6>
+                                            <p class="mb-1 text-muted">{{ notification.message }}</p>
+                                            <small class="text-muted">
+                                                <i class="fas fa-clock me-1"></i>{{ notification.created_at|timesince }} ago
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if not notification.is_read %}
+                                    <button class="btn btn-sm btn-outline-primary" onclick="markAsRead({{ notification.id }})">
+                                        <i class="fas fa-check"></i> Mark Read
+                                    </button>
+                                {% else %}
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check"></i> Read
+                                    </span>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-bell-slash fa-3x text-muted mb-3"></i>
+                        <h5 style="color: var(--text-muted);">No notifications yet</h5>
+                        <p class="text-muted">You'll see notifications here when someone comments on your posts, replies to your comments, or sends you a message.</p>
+                        <a href="{% url 'community:post_list' %}" class="btn btn-primary">
+                            <i class="fas fa-bullhorn"></i> Browse Community
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function markAsRead(notificationId) {
+        fetch(`/accounts/notifications/${notificationId}/mark-read/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+    }
+
+    function markAllRead() {
+        fetch('{% url "accounts:mark_all_notifications_read" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+    }
+</script>
+{% endblock %} 

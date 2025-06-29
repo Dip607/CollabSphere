@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Community Posts - CollabSphere{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1" style="color: var(--text-light); font-weight: 700;">
+            <i class="fas fa-bullhorn"></i> Community Posts
+        </h2>
+        <p class="text-muted mb-0">Discover opportunities and connect with your college community</p>
+    </div>
+    <a href="{% url 'community:post_create' %}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> New Post
+    </a>
+</div>
+
+<!-- Post Type Filter -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="d-flex flex-wrap gap-3 align-items-end">
+            <div class="flex-grow-1">
+                <label class="form-label">Filter by type:</label>
+                <select name="type" class="form-select">
+                    <option value="">All Posts</option>
+                    {% for value, label in post_types %}
+                        <option value="{{ value }}" {% if current_filter == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-secondary">
+                <i class="fas fa-filter"></i> Apply Filter
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Posts List -->
+<div class="row g-4">
+    {% for post in page_obj %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card post-card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span class="post-type-badge">{{ post.get_post_type_display_name }}</span>
+                    <span class="text-muted small">{{ post.created_at|date:'M d, Y' }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title mb-3" style="color: var(--text-light); font-weight: 600;">
+                        {{ post.title }}
+                    </h5>
+                    <p class="card-text text-muted mb-3">
+                        {{ post.content|truncatechars:120 }}
+                    </p>
+                    
+                    <!-- Author Info -->
+                    <div class="d-flex align-items-center mb-3">
+                        {% if post.created_by.profile_pic %}
+                            <img src="{{ post.created_by.profile_pic.url }}" alt="Profile" class="profile-pic me-3" style="width: 40px; height: 40px;">
+                        {% else %}
+                            <div class="profile-pic me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: var(--gradient-blue);">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                        {% endif %}
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-1">
+                                <h6 class="mb-0 me-2" style="color: var(--text-light); font-weight: 600;">
+                                    {{ post.created_by.get_full_name|default:post.created_by.email }}
+                                </h6>
+                                <span class="role-badge role-{{ post.created_by.role }}">
+                                    {% if post.created_by.role == 'student' %}
+                                        <i class="fas fa-user-graduate me-1"></i>Student
+                                    {% elif post.created_by.role == 'alumni' %}
+                                        <i class="fas fa-user-tie me-1"></i>Alumni
+                                    {% elif post.created_by.role == 'professor' %}
+                                        <i class="fas fa-chalkboard-teacher me-1"></i>Professor
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% if post.created_by.passout_batch and post.created_by.role != 'professor' %}
+                                <small class="text-muted">
+                                    <i class="fas fa-graduation-cap me-1"></i>Batch {{ post.created_by.passout_batch }}
+                                </small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                        <i class="fas fa-clock me-1"></i>{{ post.created_at|timesince }} ago
+                    </small>
+                    <a href="{% url 'community:post_detail' post.pk %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-eye"></i> View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-inbox fa-3x mb-3" style="color: var(--text-muted);"></i>
+                    <h4 class="mb-2" style="color: var(--text-light);">No posts found</h4>
+                    <p class="text-muted mb-4">Be the first to share an opportunity or start a discussion!</p>
+                    <a href="{% url 'community:post_create' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create First Post
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+<nav class="mt-5">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if current_filter %}&type={{ current_filter }}{% endif %}">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </a>
+            </li>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}{% if current_filter %}&type={{ current_filter }}{% endif %}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if current_filter %}&type={{ current_filter }}{% endif %}">
+                    Next <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %} 

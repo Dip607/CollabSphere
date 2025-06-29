@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - CollabSphere{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card post-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="post-type-badge">{{ post.get_post_type_display_name }}</span>
+                <span class="text-muted small">{{ post.created_at|date:'M d, Y \a\t g:i A' }}</span>
+            </div>
+            <div class="card-body">
+                <h2 class="card-title mb-4" style="color: var(--text-light); font-weight: 700;">
+                    {{ post.title }}
+                </h2>
+                
+                <!-- Author Info Section -->
+                <div class="card mb-4" style="background: rgba(26, 26, 46, 0.5); border: 1px solid var(--card-border);">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                {% if post.created_by.profile_pic %}
+                                    <img src="{{ post.created_by.profile_pic.url }}" alt="Profile" class="profile-pic me-4" style="width: 60px; height: 60px;">
+                                {% else %}
+                                    <div class="profile-pic me-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: var(--gradient-blue);">
+                                        <i class="fas fa-user fa-2x text-white"></i>
+                                    </div>
+                                {% endif %}
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <h5 class="mb-0 me-3" style="color: var(--text-light); font-weight: 600;">
+                                            {{ post.created_by.get_full_name|default:post.created_by.email }}
+                                        </h5>
+                                        <span class="role-badge role-{{ post.created_by.role }}">
+                                            {% if post.created_by.role == 'student' %}
+                                                <i class="fas fa-user-graduate me-1"></i>Student
+                                            {% elif post.created_by.role == 'alumni' %}
+                                                <i class="fas fa-user-tie me-1"></i>Alumni
+                                            {% elif post.created_by.role == 'professor' %}
+                                                <i class="fas fa-chalkboard-teacher me-1"></i>Professor
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="d-flex align-items-center text-muted">
+                                        {% if post.created_by.passout_batch and post.created_by.role != 'professor' %}
+                                            <span class="me-3">
+                                                <i class="fas fa-graduation-cap me-1"></i>Batch {{ post.created_by.passout_batch }}
+                                            </span>
+                                        {% endif %}
+                                        <span>
+                                            <i class="fas fa-calendar me-1"></i>Joined {{ post.created_by.date_joined|date:"M Y" }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if user.is_authenticated and user != post.created_by %}
+                                <a href="{% url 'community:conversation' user_id=post.created_by.id %}" class="btn btn-primary">
+                                    <i class="fas fa-envelope"></i> Send Message
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Post Content -->
+                <div class="post-content mb-4">
+                    <p class="card-text" style="color: var(--text-accent); font-size: 1.1rem; line-height: 1.8;">
+                        {{ post.content|linebreaks }}
+                    </p>
+                </div>
+                
+                <!-- Post Metadata -->
+                <div class="d-flex justify-content-between align-items-center text-muted mb-4">
+                    <small>
+                        <i class="fas fa-clock me-1"></i>Posted {{ post.created_at|timesince }} ago
+                    </small>
+                    {% if post.updated_at != post.created_at %}
+                        <small>
+                            <i class="fas fa-edit me-1"></i>Updated {{ post.updated_at|timesince }} ago
+                        </small>
+                    {% endif %}
+                </div>
+                <!-- Comments Section -->
+                <div class="mt-5">
+                    <h4 class="mb-4" style="color: var(--text-light); font-weight: 700;">
+                        <i class="fas fa-comments"></i> Comments ({{ comments|length }})
+                    </h4>
+                    {% if comments %}
+                        <div class="mb-4">
+                            {% for comment in comments %}
+                                <div class="card mb-3" style="background: rgba(30,30,60,0.7); border: 1px solid var(--card-border);">
+                                    <div class="card-body p-3">
+                                        <div class="d-flex align-items-center mb-2">
+                                            {% if comment.user.profile_pic %}
+                                                <img src="{{ comment.user.profile_pic.url }}" alt="Profile" class="profile-pic me-3" style="width: 36px; height: 36px;">
+                                            {% else %}
+                                                <div class="profile-pic me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background: var(--gradient-blue);">
+                                                    <i class="fas fa-user text-white"></i>
+                                                </div>
+                                            {% endif %}
+                                            <div class="flex-grow-1">
+                                                <span style="color: #fff; font-weight: 600;">{{ comment.user.get_full_name|default:comment.user.email }}</span>
+                                                <span class="role-badge role-{{ comment.user.role }} ms-2">
+                                                    {% if comment.user.role == 'student' %}
+                                                        <i class="fas fa-user-graduate me-1"></i>Student
+                                                    {% elif comment.user.role == 'alumni' %}
+                                                        <i class="fas fa-user-tie me-1"></i>Alumni
+                                                    {% elif comment.user.role == 'professor' %}
+                                                        <i class="fas fa-chalkboard-teacher me-1"></i>Professor
+                                                    {% endif %}
+                                                </span>
+                                                <small class="text-muted ms-2"><i class="fas fa-clock me-1"></i>{{ comment.created_at|timesince }} ago</small>
+                                            </div>
+                                        </div>
+                                        <div style="color: var(--text-accent); font-size: 1.05rem;">
+                                            {{ comment.content|linebreaksbr }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">No comments yet. Be the first to comment!</div>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <div class="card" style="background: rgba(26,26,46,0.8); border: 1px solid var(--card-border);">
+                            <div class="card-body">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{ comment_form.content }}
+                                    <div class="d-grid mt-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-paper-plane"></i> Add Comment
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning mt-3">
+                            <a href="{% url 'accounts:login' %}" class="alert-link">Log in</a> to comment.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <a href="{% url 'community:post_list' %}" class="btn btn-outline-light me-2">
+                        <i class="fas fa-arrow-left"></i> Back to Posts
+                    </a>
+                    {% if user == post.created_by %}
+                        <a href="{% url 'community:post_edit' post.pk %}" class="btn btn-secondary me-2">
+                            <i class="fas fa-edit"></i> Edit Post
+                        </a>
+                        <a href="{% url 'community:post_delete' post.pk %}" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Delete Post
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

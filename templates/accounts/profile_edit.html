@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile - CollabSphere{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0">
+                    <i class="fas fa-user-edit"></i> Edit Profile
+                </h3>
+                <p class="mb-0">Update your profile information</p>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">
+                                <i class="fas fa-user"></i> First Name
+                            </label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="text-danger mt-1">
+                                    {% for error in form.first_name.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">
+                                <i class="fas fa-user"></i> Last Name
+                            </label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="text-danger mt-1">
+                                    {% for error in form.last_name.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3" id="passout-batch-container">
+                        <label for="{{ form.passout_batch.id_for_label }}" class="form-label">
+                            <i class="fas fa-graduation-cap"></i> Graduation Year
+                        </label>
+                        {{ form.passout_batch }}
+                        {% if form.passout_batch.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.passout_batch.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            {% if user.role == 'professor' %}
+                                Not applicable for professors
+                            {% else %}
+                                Leave blank if you're a current student
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.profile_pic.id_for_label }}" class="form-label">
+                            <i class="fas fa-image"></i> Profile Picture
+                        </label>
+                        {{ form.profile_pic }}
+                        {% if form.profile_pic.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.profile_pic.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if user.profile_pic %}
+                            <div class="mt-2">
+                                <small class="text-muted">Current: {{ user.profile_pic.name }}</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Profile
+                        </button>
+                    </div>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passoutBatchContainer = document.getElementById('passout-batch-container');
+    const passoutBatchField = document.getElementById('passout-batch-field');
+    
+    // Hide graduation year field for professors
+    if ('{{ user.role }}' === 'professor') {
+        passoutBatchContainer.style.display = 'none';
+        if (passoutBatchField) {
+            passoutBatchField.value = '';
+        }
+    }
+});
+</script>
+{% endblock %} 

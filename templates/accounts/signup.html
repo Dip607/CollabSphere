@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - CollabSphere{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0">
+                    <i class="fas fa-user-plus"></i> Join CollabSphere
+                </h3>
+                <p class="mb-0">Create your account to join the XYZ College community</p>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">
+                                <i class="fas fa-envelope"></i> Email Address *
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger mt-1">
+                                    {% for error in form.email.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.role.id_for_label }}" class="form-label">
+                                <i class="fas fa-user-tag"></i> Role *
+                            </label>
+                            {{ form.role }}
+                            {% if form.role.errors %}
+                                <div class="text-danger mt-1">
+                                    {% for error in form.role.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3" id="passout-batch-container">
+                        <label for="{{ form.passout_batch.id_for_label }}" class="form-label">
+                            <i class="fas fa-graduation-cap"></i> Graduation Year
+                        </label>
+                        {{ form.passout_batch }}
+                        {% if form.passout_batch.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.passout_batch.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Leave blank if you're a current student or professor</div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">
+                                <i class="fas fa-lock"></i> Password *
+                            </label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <div class="text-danger mt-1">
+                                    {% for error in form.password1.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                <i class="fas fa-lock"></i> Confirm Password *
+                            </label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="text-danger mt-1">
+                                    {% for error in form.password2.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                    </div>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <p class="mb-2">Already have an account?</p>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const roleSelect = document.getElementById('role-select');
+    const passoutBatchContainer = document.getElementById('passout-batch-container');
+    const passoutBatchField = document.getElementById('passout-batch-field');
+    
+    function togglePassoutBatch() {
+        if (roleSelect.value === 'professor') {
+            passoutBatchContainer.style.display = 'none';
+            passoutBatchField.value = '';
+        } else {
+            passoutBatchContainer.style.display = 'block';
+        }
+    }
+    
+    // Initial check
+    togglePassoutBatch();
+    
+    // Listen for changes
+    roleSelect.addEventListener('change', togglePassoutBatch);
+});
+</script>
+{% endblock %} 

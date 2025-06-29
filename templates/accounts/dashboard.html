@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - CollabSphere{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card" style="background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(26,26,46,0.95) 100%); box-shadow: 0 8px 32px rgba(124,58,237,0.15); border: none;">
+            <div class="card-header text-center" style="background: linear-gradient(90deg, #7c3aed 0%, #8b5cf6 100%); color: #fff; font-size: 2rem; font-weight: 700; border-radius: 16px 16px 0 0;">
+                Dashboard
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    {% if user.profile_pic %}
+                        <img src="{{ user.profile_pic.url }}" alt="Profile" class="profile-pic mb-3" style="width: 100px; height: 100px; box-shadow: 0 0 0 4px #8b5cf6, 0 8px 32px rgba(124,58,237,0.2);">
+                    {% else %}
+                        <i class="fas fa-user-circle fa-5x mb-3" style="color: var(--secondary-purple);"></i>
+                    {% endif %}
+                </div>
+                <h4 class="mb-2" style="color: #fff; font-weight: 700;">{{ user.get_full_name|default:user.email }}</h4>
+                <p class="mb-3">
+                    <span class="badge bg-gradient" style="background: linear-gradient(90deg, #7c3aed 0%, #8b5cf6 100%); color: #fff; font-size: 1rem; font-weight: 600; padding: 0.6em 1.2em; border-radius: 12px; box-shadow: 0 2px 8px rgba(124,58,237,0.15);">
+                        {{ role_display }}
+                    </span>
+                </p>
+                <div class="row text-start mb-4 justify-content-center">
+                    <div class="col-12 col-md-10">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope me-3" style="color: #a78bfa;"></i>
+                            <span style="color: #e2e8f0;"><strong>Email:</strong> {{ user.email }}</span>
+                        </div>
+                        {% if user.username %}
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-user me-3" style="color: #a78bfa;"></i>
+                                <span style="color: #e2e8f0;"><strong>Username:</strong> @{{ user.username }}</span>
+                            </div>
+                        {% endif %}
+                        {% if user.passout_batch %}
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-graduation-cap me-3" style="color: #a78bfa;"></i>
+                                <span style="color: #e2e8f0;"><strong>Batch:</strong> {{ user.passout_batch }}</span>
+                            </div>
+                        {% endif %}
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-calendar me-3" style="color: #a78bfa;"></i>
+                            <span style="color: #e2e8f0;"><strong>Joined:</strong> {{ user.date_joined|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4" style="border-color: #7c3aed; opacity: 0.2;">
+                <div class="d-grid gap-3">
+                    <a href="{% url 'accounts:profile_edit' %}" class="btn btn-secondary" style="background: linear-gradient(90deg, #7c3aed 0%, #8b5cf6 100%); color: #fff; font-weight: 600;">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
+                    <a href="{% url 'community:post_create' %}" class="btn btn-primary" style="background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; font-weight: 600;">
+                        <i class="fas fa-plus"></i> Create New Post
+                    </a>
+                    <a href="{% url 'community:post_list' %}" class="btn btn-outline-light" style="font-weight: 600;">
+                        <i class="fas fa-list"></i> View All Posts
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
