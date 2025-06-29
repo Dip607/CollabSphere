@@ -94,7 +94,7 @@ A modern, feature-rich community platform designed specifically for college stud
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/collabsphere.git
+   git clone https://github.com/SouravUpadhyay7/Collab_Sphere
    cd collabsphere
    ```
 
