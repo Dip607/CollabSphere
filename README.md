@@ -4,6 +4,22 @@ A modern, feature-rich community platform designed specifically for college stud
 
 ![CollabSphere](https://img.shields.io/badge/Django-5.2.3-green) ![Python](https://img.shields.io/badge/Python-3.8+-blue) ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.0-purple)
 
+
+# Working Video
+
+
+
+https://github.com/user-attachments/assets/91503f1a-5174-4d1a-922c-d5ef3ed96844
+
+
+
+
+
+
+
+
+
+
 ## 🖼️ Screenshots
 
 <h3 align="center">🔍 Screenshots</h3>
