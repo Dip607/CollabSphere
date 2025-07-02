@@ -1,0 +1,8 @@
+<div class="card mt-4 p-4">
+    <h4 class="text-warning mb-3">📖 Share Your Story</h4>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary">Submit</button>
+    </form>
+</div>

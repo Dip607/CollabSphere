@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Share Alumni Story{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card p-4">
+        <h3 class="mb-3 text-warning">✍️ Share Your Story</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary mt-2" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

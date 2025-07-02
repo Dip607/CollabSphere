@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Alumni Stories{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card p-4">
+        <h3 class="mb-3 text-warning">🎓 Alumni Stories & Tips</h3>
+        {% for story in stories %}
+            <div class="mb-4">
+                <h5 class="text-light">{{ story.title }}</h5>
+                <p class="text-muted">by {{ story.author.get_full_name }} on {{ story.created_at|date:"F j, Y" }}</p>
+                <p>{{ story.content|linebreaks }}</p>
+                <hr>
+            </div>
+        {% empty %}
+            <p class="text-muted">No stories yet. Be the first alumni to share!</p>
+        {% endfor %}
+        {% if user.is_authenticated and user.role == 'alumni' %}
+            <a href="{% url 'community:create_alumni_story' %}" class="btn btn-warning mt-3">
+                <i class="fas fa-pen"></i> Share Your Story
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

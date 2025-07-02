@@ -9,6 +9,64 @@ from .forms import PostForm, CommentForm, DirectMessageForm
 from accounts.models import CustomUser, Notification
 from django.contrib.contenttypes.models import ContentType
 
+# community/views.py
+# views.py
+
+
+from .models import Mentorship
+
+# community/views.py
+
+
+from .models import AlumniStory
+from .forms import AlumniStoryForm
+
+
+@login_required
+def alumni_story_list(request):
+    stories = AlumniStory.objects.order_by('-created_at')
+    return render(request, 'community/alumni_story_list.html', {'stories': stories})
+
+@login_required
+def alumni_stories_view(request):
+    if request.user.role != 'student':
+        return redirect('home')  # or show 403
+    stories = AlumniStory.objects.all()
+    return render(request, 'community/alumni_stories.html', {'stories': stories})
+@login_required
+def alumni_story_create(request):
+    if request.user.role != 'alumni':
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = AlumniStoryForm(request.POST)
+        if form.is_valid():
+            story = form.save(commit=False)
+            story.author = request.user
+            story.save()
+            return redirect('community:alumni_stories')
+    else:
+        form = AlumniStoryForm()
+    return render(request, 'community/alumni_story_form.html', {'form': form})
+
+
+
+@login_required
+def professor_student_list_view(request):
+    if request.user.role == 'professor':
+        mentorship = Mentorship.objects.filter(mentor=request.user).first()
+        return render(request, 'community/professor_student_list.html', {'mentorship': mentorship})
+    return render(request, 'community/access_denied.html')
+
+@login_required
+def student_mentor_view(request):
+    mentorship = Mentorship.objects.filter(students=request.user).first()
+    students = mentorship.students.exclude(id=request.user.id) if mentorship else []
+
+    return render(request, 'community/student_mentor_view.html', {
+        'mentorship': mentorship,
+        'students': students,
+    })
 
 @login_required
 def post_list(request):

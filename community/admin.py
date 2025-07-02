@@ -1,5 +1,13 @@
 from django.contrib import admin
 from .models import Post
+# community/admin.py
+from .models import Mentorship
+
+class MentorshipAdmin(admin.ModelAdmin):
+    list_display = ('mentor', 'created_at')
+    filter_horizontal = ('students',)
+
+admin.site.register(Mentorship, MentorshipAdmin)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card bg-dark text-light mt-4 p-4">
+    <h4 class="text-warning">📚 Resources from Your Mentor</h4>
+    {% if resources %}
+        <ul class="list-group list-group-flush">
+            {% for res in resources %}
+            <li class="list-group-item bg-dark text-white">
+                <strong>{{ res.title }}</strong><br>
+                {{ res.description }}<br>
+                {% if res.link %}<a href="{{ res.link }}" target="_blank" class="text-info">Open Link</a><br>{% endif %}
+                {% if res.file %}<a href="{{ res.file.url }}" class="btn btn-sm btn-outline-light mt-2">Download File</a>{% endif %}
+                <br><small class="text-muted">{{ res.created_at|date:"d M, Y H:i" }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-warning">No resources shared yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

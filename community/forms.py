@@ -1,7 +1,14 @@
 from django import forms
 from .models import Post, Comment, DirectMessage
 
+# community/forms.py
+from .models import AlumniStory
 
+class AlumniStoryForm(forms.ModelForm):
+    class Meta:
+        model = AlumniStory
+        fields = ['title', 'content']
+        
 class PostForm(forms.ModelForm):
     """
     Form for creating and editing posts

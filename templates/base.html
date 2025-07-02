@@ -479,6 +479,7 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
+        
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <i class="fas fa-users"></i> CollabSphere
@@ -504,8 +505,34 @@
                         <a class="nav-link" href="{% url 'community:post_create' %}">
                             <i class="fas fa-plus"></i> Create Post
                         </a>
-                    </li>
+                    </li>   <!-- 🔽 Insert Here -->
+                    {% if user.is_authenticated %}
+                        {% if user.role == 'student' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'community:my_mentor' %}">
+                                    <i class="fas fa-chalkboard-teacher"></i> My Mentor
+                                </a>
+                            </li>
+                        {% elif user.role == 'professor' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'community:my_students' %}">
+                                    <i class="fas fa-user-graduate"></i> My Students
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                    {% if user.is_authenticated and user.role == 'student' %}
+                       <li class="nav-item">
+                         <a class="nav-link" href="{% url 'community:alumni_stories' %}">
+                            <i class="fas fa-book-reader"></i> Alumni Stories
+                         </a>
+                       </li>
+                   {% endif %}
+                    
+                    
+                    
                 </ul>
+                
                 
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}

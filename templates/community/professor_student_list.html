@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card mt-4 p-3 bg-dark text-light">
+    <h4 class="text-warning">Assigned Students</h4>
+    {% if mentorship %}
+        <ul class="list-group list-group-flush">
+        {% for student in mentorship.students.all %}
+            <li class="list-group-item bg-dark text-white border-secondary">
+                <strong>{{ student.get_full_name }}</strong> — {{ student.email }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-warning">No students assigned to you yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

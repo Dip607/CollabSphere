@@ -61,6 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'collabsphere.wsgi.application'
 
+
 # Database
 DATABASES = {
     'default': {
