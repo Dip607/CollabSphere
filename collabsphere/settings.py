@@ -16,8 +16,8 @@ SECRET_KEY = 'django-insecure-qy0=u@g&uyz+ab%%ch+i6kvwf2qs95p_#g203j@0pf60bfd$64
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://collabsphere-ucz7.onrender.com', 'localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://collabsphere-ucz7.onrender.com']
+ALLOWED_HOSTS = ['https://collabsphere-1-ucz7.onrender.com', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://collabsphere-1-ucz7.onrender.com']
 
 
 # Application definition
