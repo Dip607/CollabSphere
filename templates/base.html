@@ -554,13 +554,22 @@
                             </li>
                         {% endif %}
                     {% endif %}
-                    {% if user.is_authenticated and user.role == 'student' %}
-                       <li class="nav-item">
-                         <a class="nav-link" href="{% url 'community:alumni_stories' %}">
+                    {% if user.is_authenticated %}
+                        {% if user.role == 'student' %}
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'community:alumni_stories' %}">
                             <i class="fas fa-book-reader"></i> Alumni Stories
                          </a>
                        </li>
-                   {% endif %}
+                        {% elif user.role == 'alumni' %}
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'community:alumni_stories' %}">
+                                <i class="fas fa-book-reader"></i> Alumni Stories
+                              </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                    
                     
                     
                     
