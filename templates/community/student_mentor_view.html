@@ -1,39 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card mt-5 p-4 shadow-sm border-0" style="background: #fffbe6; border-left: 6px solid #facc15; border-radius: 16px;">
-    <h4 class="mb-3 text-dark fw-bold"><i class="fas fa-user-tie text-warning me-2"></i>Your Assigned Mentor</h4>
+<div class="card mt-5 p-4 shadow border-0" style="background: #0f172a; border-left: 6px solid #3b82f6; border-radius: 16px; color: #f1f5f9;">
+    <h4 class="mb-3 fw-bold" style="color: #06b6d4;">
+        <i class="fas fa-user-tie me-2" style="color: #0ea5e9;"></i>Your Assigned Mentor
+    </h4>
 
     {% if mentorship %}
         <div class="mb-3">
-            <span class="fw-semibold text-dark"><i class="fas fa-user-circle text-secondary me-2"></i>Name:</span>
-            <span class="text-muted">{{ mentorship.mentor.get_full_name }}</span><br>
-            <span class="fw-semibold text-dark"><i class="fas fa-envelope text-secondary me-2"></i>Email:</span>
-            <span class="text-muted">{{ mentorship.mentor.email }}</span>
+            <span class="fw-semibold"><i class="fas fa-user-circle me-2" style="color: #94a3b8;"></i>Name:</span>
+            <span class="text-light">{{ mentorship.mentor.get_full_name }}</span><br>
+            <span class="fw-semibold"><i class="fas fa-envelope me-2" style="color: #94a3b8;"></i>Email:</span>
+            <span class="text-light">{{ mentorship.mentor.email }}</span>
         </div>
 
-        <hr class="text-warning">
+        <hr style="border-color: #3b82f6;">
 
-        <h5 class="text-dark mt-4"><i class="fas fa-users text-warning me-2"></i>Other Students Under {{ mentorship.mentor.get_full_name }} Mentor</h5>
+        <h5 class="mt-4" style="color: #06b6d4;">
+            <i class="fas fa-users me-2" style="color: #0ea5e9;"></i>Other Students Under {{ mentorship.mentor.get_full_name }} Mentor
+        </h5>
         {% if students %}
             <ul class="list-group mt-3">
                 {% for student in students %}
-                    <li class="list-group-item bg-light text-dark d-flex justify-content-between align-items-center">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" 
+                        style="background: #334155; color: #f1f5f9; border: none;">
                         <div>
                             <strong>{{ student.get_full_name }}</strong><br>
-                            <small class="text-muted">{{ student.email }}</small>
+                            <small class="text-light">{{ student.email }}</small>
                         </div>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <div class="alert alert-info mt-3">
-                <i class="fas fa-info-circle me-2"></i> You are the only student assigned to this mentor.
+            <div class="alert mt-3" style="background-color: #334155; color: #f1f5f9; border-left: 4px solid #06b6d4;">
+                <i class="fas fa-info-circle me-2" style="color: #0ea5e9;"></i> You are the only student assigned to this mentor.
             </div>
         {% endif %}
     {% else %}
-        <div class="alert alert-warning mt-3">
-            <i class="fas fa-exclamation-circle me-2"></i> No mentor assigned yet.
+        <div class="alert mt-3" style="background-color: #334155; color: #f1f5f9; border-left: 4px solid #f59e0b;">
+            <i class="fas fa-exclamation-circle me-2" style="color: #facc15;"></i> No mentor assigned yet.
         </div>
     {% endif %}
 </div>
