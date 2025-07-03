@@ -315,6 +315,39 @@
             background: rgba(124, 58, 237, 0.1);
             color: var(--text-light);
         }
+        /* Make the navbar toggler (hamburger icon) visible */
+        .navbar-toggler {
+           border: none;
+           outline: none;
+            box-shadow: none;
+         }
+
+        .navbar-toggler-icon {
+         background-image: none;
+         width: 24px;
+         height: 2px;
+         background-color: var(--text-light);
+         position: relative;
+        }
+
+      .navbar-toggler-icon::before,
+      .navbar-toggler-icon::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 24px;
+        height: 2px;
+       background-color: var(--text-light);
+        }
+
+       .navbar-toggler-icon::before {
+          top: -8px;
+        }
+
+      .navbar-toggler-icon::after {
+          top: 8px;
+        }
+        
 
         .pagination .page-link {
             background: var(--card-bg);
@@ -629,7 +662,7 @@
     <footer class="footer">
         <div class="container">
             <p class="mb-0">&copy; 2025 CollabSphere - XYZ College Community Platform. All rights reserved.</p>
-            <p class="mb-0">Developed by <a href="https://github.com/SouravUpadhyay7" target="_blank" style="color: var(--text-light);">Sourav Upadhyay</a></p>
+            <p class="mb-0">Developed by <a href="https://github.com/SouravUpadhyay7" target="_blank" style="color: var(--text-light);">Sourav Upadhyay && Dipan Mandal</a></p>
         </div>
     </footer>
 
